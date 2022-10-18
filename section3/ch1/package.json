@@ -1,0 +1,12 @@
+{
+  "name": "ch1",
+  "version": "1.0.0",
+  "description": "ch1",
+  "main": "index.js",
+  "author": "maybteam",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
