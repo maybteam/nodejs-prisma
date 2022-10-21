@@ -43,7 +43,7 @@ const server = http.createServer((request, response) => {
         })
         .on("end", () => {
           const query = url.parse(request.url, true).query;
-          console.log({ query });
+
           const { id } = query;
           const { name, age, gender } = JSON.parse(body);
 

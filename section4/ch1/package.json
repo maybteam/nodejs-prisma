@@ -1,0 +1,14 @@
+{
+  "name": "ch1",
+  "version": "1.0.0",
+  "description": "ch1",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
