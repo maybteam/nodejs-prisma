@@ -1,5 +1,5 @@
-import * as http from "http";
-import * as url from "url";
+import http from "http";
+import url from "url";
 
 let users = [];
 
@@ -50,7 +50,7 @@ const server = http.createServer((request, response) => {
           body += data;
         })
         .on("end", () => {
-          //쿼리 파싱
+          // 쿼리 파싱
           // 쿼리 : /users?id=1 에서 ? 뒤의 값
           const query = url.parse(request.url, true).query;
 
