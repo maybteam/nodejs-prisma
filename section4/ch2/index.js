@@ -4,7 +4,6 @@ import helmet from "helmet";
 import dayjs from "dayjs";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { nanoid } from "nanoid";
 
 const today = dayjs().format("YYYY-MM-DD");
 console.log({ today });
@@ -14,9 +13,6 @@ console.log({ passwordHash });
 
 const token = jwt.sign("1234", "secret");
 console.log({ token });
-
-const id = nanoid();
-console.log({ id });
 
 const app = express();
 
