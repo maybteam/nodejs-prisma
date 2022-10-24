@@ -1,6 +1,8 @@
-exports.out = 1;
 /**호이스팅 발생 */
 console.log(a);
+// console.log(b);
+var a = 1;
+let b = 2;
 
 var varName = "Javascript";
 
@@ -26,5 +28,24 @@ console.log(constName);
 
 // constName = "js"; 재할당 불가능
 
-var a = 1;
-module.exports.a = a;
+function foo() {
+  var fooVar = "fooVar";
+  if (true) {
+    var fooVar2 = "fooVar2";
+  }
+
+  console.log("fooVar", fooVar);
+  console.log("fooVar2", fooVar2);
+}
+
+console.log("out fooVar", fooVar);
+
+function boo() {
+  let booLet = "booLet";
+  if (true) {
+    let booLet2 = "booLet2";
+    console.log("booLet", booLet2);
+  }
+  console.log("booLet", booLet);
+  console.log("booLet2", booLet2); //오류
+}
