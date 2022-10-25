@@ -11,6 +11,14 @@ const add = (a, b) => {
 console.log("sum(일반함수) : ", sum(1, 2));
 console.log("add(화살표 함수) : ", add(3, 4));
 
+function checkThis() {
+  console.log(this);
+}
+
+const checkThisWithArrow = () => {
+  console.log(this);
+};
+
 const obj1 = {
   a: 1,
   getThis() {
