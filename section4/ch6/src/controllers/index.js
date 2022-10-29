@@ -1,3 +1,3 @@
-import { userController } from "./users/index.js";
+import { userController } from "./users";
 
 export default [userController];

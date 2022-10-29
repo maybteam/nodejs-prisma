@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
-import controllers from "./controllers/index.js";
+import controllers from "./controllers";
+
 const app = express();
 
 // 미들웨어를 먼저 작성합니다.
