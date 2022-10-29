@@ -1,8 +1,8 @@
-import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
 import { users } from "./users.js";
+import express from "express";
 
 const app = express();
 
@@ -14,6 +14,13 @@ app.use(
   })
 );
 app.use(helmet());
+
+/**
+ * 미들웨어
+ * app.use((req, res, next) => {})
+ * ex) const helmetMiddleware = helmet();
+ * app.use(helmetMiddleware);
+ */
 
 //GET /users
 app.get("/users", (req, res) => {
@@ -52,4 +59,6 @@ app.delete("/users", (req, res) => {
   res.status(204).json({});
 });
 
-app.listen(8000);
+app.listen(8000, () => {
+  console.log("Server is running on port 8000");
+});
