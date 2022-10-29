@@ -38,6 +38,7 @@ app.post("/users", (req, res) => {
 });
 
 //PATCH /users/:id
+// ex) /users/1 => req.params.id = 1
 app.patch("/users/:id", (req, res) => {
   const { id } = req.params;
   const { name, age } = req.body;
@@ -58,6 +59,8 @@ app.delete("/users", (req, res) => {
 
   res.status(204).json({});
 });
+
+app.get("/test");
 
 app.listen(8000, () => {
   console.log("Server is running on port 8000");
