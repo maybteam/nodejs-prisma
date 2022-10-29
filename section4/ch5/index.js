@@ -7,7 +7,7 @@ import { users } from "./users.js";
 const app = express();
 
 // 미들웨어를 먼저 작성합니다.
-app.use(express.json({ limit: "700mb" }));
+app.use(express.urlencoded({ extended: true, limit: "700mb" }));
 app.use(
   cors({
     origin: "*",
@@ -15,10 +15,12 @@ app.use(
 );
 app.use(helmet());
 
+//GET /users
 app.get("/users", (req, res) => {
   res.status(200).json({ users });
 });
 
+//POST /users
 app.post("/users", (req, res) => {
   const { name, age } = req.body;
   const id = new Date().getTime();
@@ -28,6 +30,7 @@ app.post("/users", (req, res) => {
   res.status(201).json({ id });
 });
 
+//PATCH /users/:id
 app.patch("/users/:id", (req, res) => {
   const { id } = req.params;
   const { name, age } = req.body;
@@ -41,6 +44,7 @@ app.patch("/users/:id", (req, res) => {
   res.status(204).json({});
 });
 
+//DELETE /users/:id
 app.delete("/users", (req, res) => {
   const { id } = req.params;
   users = users.filter((user) => user.id !== Number(id));
