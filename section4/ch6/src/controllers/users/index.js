@@ -1,29 +1,45 @@
 import { Router } from "express";
-import { users } from "./users.js";
+
+// 라우터와 app 등록할 경로 지정을 위한 class
 class UserController {
-  router = Router();
+  router;
   path = "/users";
+  #users = [
+    {
+      id: 1,
+      name: "John",
+      age: 24,
+    },
+    {
+      id: 2,
+      name: "Sally",
+      age: 31,
+    },
+  ];
 
   constructor() {
+    this.router = Router();
     this.#init();
   }
 
+  //#은 private을 의미
+  //다른 코드에서 접근 불가
   #init() {
-    this.router.get("/", this.#getUsers);
-    this.router.post("/", this.#createUser);
-    this.router.patch("/:id", this.#updateUser);
-    this.router.delete("/:id", this.#deleteUser);
+    this.router.get("/", this.#getUsers.bind(this));
+    this.router.post("/", this.#createUser.bind(this));
+    this.router.patch("/:id", this.#updateUser.bind(this));
+    this.router.delete("/:id", this.#deleteUser.bind(this));
   }
 
   #getUsers(req, res) {
-    res.status(200).json({ users });
+    res.status(200).json({ users: this.#users });
   }
 
   #createUser(req, res) {
     const { name, age } = req.body;
     const id = new Date().getTime();
 
-    users.push({ id, name, age });
+    this.#users.push({ id, name, age });
 
     res.status(201).json({ id });
   }
@@ -32,9 +48,9 @@ class UserController {
     const { id } = req.params;
     const { name, age } = req.body;
 
-    users.forEach((user, index) => {
+    this.#users.forEach((user, index) => {
       if (user.id === Number(id)) {
-        users[index] = { ...user, name, age };
+        this.#users[index] = { ...user, name, age };
       }
     });
 
@@ -43,10 +59,12 @@ class UserController {
 
   #deleteUser(req, res) {
     const { id } = req.params;
-    users = users.filter((user) => user.id !== Number(id));
+
+    this.#users = this.#users.filter((user) => user.id !== Number(id));
 
     res.status(204).json({});
   }
 }
 
-export const userController = new UserController();
+const userController = new UserController();
+export default userController;
