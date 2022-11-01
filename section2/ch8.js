@@ -49,17 +49,17 @@ for (const index in arr1) {
   console.log({ index, value: arr1[index] });
 }
 
-const promiseFunction = () => {
+const promiseFunction = (value) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve("Promise result");
+      resolve(`Promise Result : ${value}`);
     }, 1000);
   });
 };
 
 console.log("\n---async map---");
-const promiseMap = arr1.map(async () => {
-  const result = await promiseFunction();
+const promiseMap = arr1.map(async (value) => {
+  const result = await promiseFunction(value);
 
   return result;
 });
@@ -68,9 +68,22 @@ console.log(promiseMap);
 console.log("\n---async for of---");
 const asyncForOf = async () => {
   for (const value of arr1) {
-    const result = await promiseFunction();
+    const result = await promiseFunction(value);
     console.log({ result });
   }
 };
 
-asyncForOf();
+// asyncForOf();
+
+console.log("\n---Promise with reduce---");
+
+const promiseReduce = async () => {
+  const results = [];
+  await arr1.reduce(async (acc, value) => {
+    const result = await promiseFunction(value);
+
+    results.push(result);
+  }, Promise.resolve());
+  console.log({ results });
+};
+promiseReduce();
