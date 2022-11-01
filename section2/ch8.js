@@ -74,15 +74,17 @@ const asyncForOf = async () => {
   }
 };
 
-asyncForOf();
+// asyncForOf();
 
 console.log("\n---Promise with reduce---");
 //순서 O, 병렬 O
 const promiseReduce = async () => {
   const results = [];
   await arr1.reduce(async (promise, value) => {
+    console.log(promise, { value });
     await promise;
     const result = await promiseFunction(value);
+
     results.push(result);
   }, Promise.resolve());
   console.log("promise reduce", { results });
@@ -102,4 +104,4 @@ const promiseMap = async () => {
   console.log("promise map", results);
 };
 
-promiseMap();
+// promiseMap();

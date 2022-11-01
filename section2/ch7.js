@@ -68,3 +68,35 @@ const startAsync = async () => {
 startAsync().then((res) => {
   console.log("startAsync Result", res);
 });
+
+const promiseAllResult = async () => {
+  return await Promise.all([
+    promiseFunction("첫번째"),
+    promiseFunction("두번째"),
+    promiseFunction("세번째"),
+  ]);
+};
+
+const promiseRaceResult = async () => {
+  return await Promise.race([
+    promiseFunction("첫번째"),
+    promiseFunction("두번째"),
+    promiseFunction("세번째"),
+  ]);
+};
+
+const promiseResolveResult = async () => {
+  return await Promise.resolve("RESOLVE");
+};
+
+promiseAllResult().then((res) => {
+  console.log("PromiseAllResult", res);
+});
+
+promiseRaceResult().then((res) => {
+  console.log("PromiseRaceResult", res);
+});
+
+promiseResolveResult().then((res) => {
+  console.log("PromiseResolveResult", res);
+});
