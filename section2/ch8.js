@@ -49,6 +49,13 @@ for (const index in arr1) {
   console.log({ index, value: arr1[index] });
 }
 
+console.log("\n---reduce example---");
+
+const redueResult = arr1.reduce((acc, next) => {
+  return (acc += next);
+}, 0);
+console.log(redueResult);
+
 const promiseFunction = (value) => {
   return new Promise((resolve) => {
     setTimeout(() => {
