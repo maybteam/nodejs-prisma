@@ -51,21 +51,22 @@ for (const index in arr1) {
 
 const promiseFunction = () => {
   return new Promise((resolve) => {
-    resolve("Promise result");
+    setTimeout(() => {
+      resolve("Promise result");
+    }, 1000);
   });
 };
 
 console.log("\n---async map---");
 const promiseMap = arr1.map(async () => {
   const result = await promiseFunction();
-  console.log({ result });
+
   return result;
 });
+console.log(promiseMap);
 
-console.log({ promiseMap });
-
+console.log("\n---async for of---");
 const asyncForOf = async () => {
-  console.log("\n---async for of---");
   for (const value of arr1) {
     const result = await promiseFunction();
     console.log({ result });

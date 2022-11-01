@@ -3,6 +3,10 @@ const obj1 = {
   b: 2,
   sum() {
     console.log(this);
+    const arrowThis = () => {
+      console.log(`arrow this`, this);
+    };
+    arrowThis();
   },
 };
 
