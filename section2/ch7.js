@@ -1,75 +1,70 @@
-const arr1 = [2, 3, 4, 5, 6];
-const obj1 = {
-  name: "matt",
-  age: 20,
-  hobby: "coding",
-  language: "javascript",
+// console.log로 실행할 때의 순서는 크게 신경쓰지 않으셔도 됩니다.
+// 주석을 통해 하나씩 실행해보세요
+
+const callbakHell = () => {
+  setTimeout(() => {
+    console.log("하나");
+    setTimeout(() => {
+      console.log("둘");
+      setTimeout(() => {
+        console.log("셋");
+        setTimeout(() => {
+          console.log("넷");
+        }, 0);
+      }, 0);
+    }, 0);
+  }, 0);
 };
 
-const arr2 = arr1.map((value, index) => {
-  return value + 1;
+callbakHell();
+
+// 바로 실행되는 프로미스
+const promiseExample = new Promise((resolve, reject) => {
+  console.log("프로미스 실행!!");
+
+  resolve("성공!!");
 });
 
-console.log("---map result---\n", arr2);
-
-console.log("\n---forEach array---");
-arr1.forEach((value, index) => {
-  console.log({ value, index });
+promiseExample.then((result) => {
+  console.log("Promise Example Result : ", result);
 });
 
-console.log("\n---Object obj1---");
-console.log(Object.entries(obj1));
+//함수를 호출할 때 실행되는 프로미스
+const promiseFunction = (text) => {
+  return new Promise((resolve, reject) => {
+    if (!text) reject("인자를 넣어주세요!");
 
-console.log("\n---for in obj1---");
-for (const key in obj1) {
-  console.log({ key, value: obj1[key] });
-}
-
-console.log("\n---for of obj1 entries---");
-for (const value of Object.entries(obj1)) {
-  console.log(value);
-}
-
-console.log("\n---for of obj1 entries with key value---");
-for (const [key, value] of Object.entries(obj1)) {
-  console.log({ key, value });
-}
-
-// for (const key of obj1) {
-//   console.log({ key, value: obj1[key] });
-// }
-
-console.log("\n---for of arr1---");
-for (const value of arr1) {
-  console.log(value);
-}
-
-console.log("\n---for in arr1---");
-for (const index in arr1) {
-  console.log({ index, value: arr1[index] });
-}
-
-const promiseFunction = () => {
-  return new Promise((resolve) => {
-    resolve("Promise result");
+    console.log(text);
+    resolve(text);
   });
 };
 
-console.log("\n---async map---");
-const promiseMap = arr1.map(async () => {
-  const result = await promiseFunction();
-  console.log({ result });
-  return result;
+promiseFunction("인자").then((res) => {
+  console.log("Promise Function Result : ", res);
 });
 
-console.log({ promiseMap });
+promiseFunction("첫번째")
+  .then(() => {
+    return promiseFunction("두번째");
+  })
+  .then(() => {
+    return promiseFunction("세번째");
+  })
+  .then(() => {
+    return promiseFunction("네번째");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-const asyncForOf = async () => {
-  console.log("\n---async for of---");
-  for (const value of arr1) {
-    const result = await promiseFunction();
-    console.log({ result });
-  }
+const startAsync = async () => {
+  console.log("Async Function Start");
+  const promiseFunctionResult = await promiseFunction("await promise");
+
+  console.log("await Result : ", promiseFunctionResult);
+  return "Async Function End";
 };
 
-asyncForOf();
+startAsync().then((res) => {
+  console.log("startAsync Result", res);
+});
