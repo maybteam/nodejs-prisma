@@ -81,7 +81,7 @@ const asyncForOf = async () => {
   }
 };
 
-// asyncForOf();
+asyncForOf();
 
 console.log("\n---Promise with reduce---");
 //순서 O, 병렬 O
@@ -111,4 +111,4 @@ const promiseMap = async () => {
   console.log("promise map", results);
 };
 
-// promiseMap();
+promiseMap();
