@@ -53,19 +53,20 @@ const promiseFunction = (value) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(`Promise Result : ${value}`);
-    }, 1000);
+    }, 1000 - value * 150);
   });
 };
 
 console.log("\n---async map---");
-const promiseMap = arr1.map(async (value) => {
+const promiseMapResult = arr1.map(async (value) => {
   const result = await promiseFunction(value);
-
+  console.log("async map", result);
   return result;
 });
-console.log(promiseMap);
+console.log(promiseMapResult);
 
 console.log("\n---async for of---");
+// 순서 O, 병렬 X
 const asyncForOf = async () => {
   for (const value of arr1) {
     const result = await promiseFunction(value);
@@ -73,17 +74,32 @@ const asyncForOf = async () => {
   }
 };
 
-// asyncForOf();
+asyncForOf();
 
 console.log("\n---Promise with reduce---");
-
+//순서 O, 병렬 O
 const promiseReduce = async () => {
   const results = [];
-  await arr1.reduce(async (acc, value) => {
+  await arr1.reduce(async (promise, value) => {
+    await promise;
     const result = await promiseFunction(value);
-
     results.push(result);
   }, Promise.resolve());
-  console.log({ results });
+  console.log("promise reduce", { results });
 };
 promiseReduce();
+
+//순서 X, 병렬 O
+const promiseMap = async () => {
+  const results = await Promise.all(
+    arr1.map(async (value) => {
+      const result = await promiseFunction(value);
+
+      return result;
+    })
+  );
+
+  console.log("promise map", results);
+};
+
+promiseMap();
