@@ -32,6 +32,12 @@ class UserController {
   }
 
   #getUsers(req, res) {
+    const id = 20;
+
+    const user = this.#users.find((user) => user.id === Number(id));
+
+    console.log(user.age);
+
     res.status(200).json({ users: this.#users });
   }
 
