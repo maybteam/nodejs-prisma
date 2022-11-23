@@ -3,7 +3,7 @@ import helmet from "helmet";
 
 import express from "express";
 
-export let users = [
+let users = [
   {
     id: 1,
     name: "John",
