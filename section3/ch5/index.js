@@ -1,8 +1,20 @@
 import cors from "cors";
 import helmet from "helmet";
 
-import { users } from "./users.js";
 import express from "express";
+
+export let users = [
+  {
+    id: 1,
+    name: "John",
+    age: 24,
+  },
+  {
+    id: 2,
+    name: "Sally",
+    age: 31,
+  },
+];
 
 const app = express();
 
@@ -59,8 +71,6 @@ app.delete("/users", (req, res) => {
 
   res.status(204).json({});
 });
-
-app.get("/test");
 
 app.listen(8000, () => {
   console.log("Server is running on port 8000");
