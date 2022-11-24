@@ -1,4 +1,4 @@
-export const getUsersSwagger = {
+export const getUsers = {
   "/users": {
     get: {
       tags: ["Users"],
@@ -7,19 +7,16 @@ export const getUsersSwagger = {
       requestBody: {},
       responses: {
         200: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                result: {
-                  type: "object",
-                  example: {
-                    users: [{ id: "number", name: "string", age: "number" }],
-                  },
-                  extra: {
-                    users: {
-                      type: "array",
-                      items: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  users: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
                         id: {
                           type: "number",
                         },
@@ -43,7 +40,7 @@ export const getUsersSwagger = {
 };
 
 export const getUser = {
-  "/users/{id}": {
+  "/users/:id": {
     get: {
       tags: ["Users"],
       summary: "유저 정보 한명 불러오기",
@@ -61,28 +58,21 @@ export const getUser = {
       requestBody: {},
       responses: {
         200: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                result: {
-                  type: "object",
-                  example: {
-                    user: { id: "number", name: "string", age: "number" },
-                  },
-                  extra: {
-                    user: {
-                      type: "object",
-                      items: {
-                        id: {
-                          type: "number",
-                        },
-                        name: {
-                          type: "string",
-                        },
-                        age: {
-                          type: "number",
-                        },
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  users: {
+                    properties: {
+                      id: {
+                        type: "number",
+                      },
+                      name: {
+                        type: "string",
+                      },
+                      age: {
+                        type: "number",
                       },
                     },
                   },
@@ -128,31 +118,12 @@ export const createUser = {
       },
       responses: {
         201: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                result: {
-                  type: "object",
-                  example: {
-                    users: [{ id: "number", name: "string", age: "number" }],
-                  },
-                  extra: {
-                    users: {
-                      type: "array",
-                      items: {
-                        id: {
-                          type: "number",
-                        },
-                        name: {
-                          type: "string",
-                        },
-                        age: {
-                          type: "number",
-                        },
-                      },
-                    },
-                  },
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  users: [{ id: "number", name: "string", age: "number" }],
                 },
               },
             },
@@ -204,15 +175,11 @@ export const updateUser = {
       },
       responses: {
         204: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                result: {
-                  type: "object",
-                  example: {},
-                  extra: {},
-                },
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {},
               },
             },
           },
@@ -241,15 +208,11 @@ export const deleteUser = {
       requestBody: {},
       responses: {
         204: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                result: {
-                  type: "object",
-                  example: {},
-                  extra: {},
-                },
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {},
               },
             },
           },

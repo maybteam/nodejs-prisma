@@ -1,19 +1,31 @@
 import * as Swaggers from "../controllers/swagger";
 import DefaultSwagger from "./default";
 
-const { paths } = Object.values(Swaggers).reduce((acc, apis) => {
-  const API = Object.values(apis).map((api) => {
-    return { ...api };
-  });
+const { paths } = Object.values(Swaggers).reduce(
+  (acc, apis) => {
+    const APIs = Object.values(apis).map((api) => {
+      return { ...api };
+    });
 
-  API.forEach((api) => {
-    acc.paths = {
-      ...acc.paths,
-      ...api,
-    };
-  });
-  return acc;
-}, {});
+    APIs.forEach((api) => {
+      const key = Object.keys(api)[0];
+      if (!acc.paths[key]) {
+        acc.paths = {
+          ...acc.paths,
+          ...api,
+        };
+      } else {
+        acc.paths[key] = {
+          ...acc.paths[key],
+          ...api[key],
+        };
+      }
+    });
+
+    return acc;
+  },
+  { paths: {} }
+);
 
 export const swaggerDocs = {
   ...DefaultSwagger({
