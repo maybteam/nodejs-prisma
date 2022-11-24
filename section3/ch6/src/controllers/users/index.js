@@ -4,7 +4,7 @@ import { Router } from "express";
 class UserController {
   router;
   path = "/users";
-  #users = [
+  users = [
     {
       id: 1,
       name: "John",
@@ -19,54 +19,54 @@ class UserController {
 
   constructor() {
     this.router = Router();
-    this.#init();
+    this.init();
   }
 
-  //#은 private을 의미
+  //은 private을 의미
   //다른 코드에서 접근 불가
-  #init() {
-    this.router.get("/", this.#getUsers.bind(this));
-    this.router.post("/", this.#createUser.bind(this));
-    this.router.patch("/:id", this.#updateUser.bind(this));
-    this.router.delete("/:id", this.#deleteUser.bind(this));
+  init() {
+    this.router.get("/", this.getUsers.bind(this));
+    this.router.post("/", this.createUser.bind(this));
+    this.router.patch("/:id", this.updateUser.bind(this));
+    this.router.delete("/:id", this.deleteUser.bind(this));
   }
 
-  #getUsers(req, res) {
+  getUsers(req, res) {
     const id = 20;
 
-    const user = this.#users.find((user) => user.id === Number(id));
+    const user = this.users.find((user) => user.id === Number(id));
 
     console.log(user.age);
 
-    res.status(200).json({ users: this.#users });
+    res.status(200).json({ users: this.users });
   }
 
-  #createUser(req, res) {
+  createUser(req, res) {
     const { name, age } = req.body;
     const id = new Date().getTime();
 
-    this.#users.push({ id, name, age });
+    this.users.push({ id, name, age });
 
     res.status(201).json({ id });
   }
 
-  #updateUser(req, res) {
+  updateUser(req, res) {
     const { id } = req.params;
     const { name, age } = req.body;
 
-    this.#users.forEach((user, index) => {
+    this.users.forEach((user, index) => {
       if (user.id === Number(id)) {
-        this.#users[index] = { ...user, name, age };
+        this.users[index] = { ...user, name, age };
       }
     });
 
     res.status(204).json({});
   }
 
-  #deleteUser(req, res) {
+  deleteUser(req, res) {
     const { id } = req.params;
 
-    this.#users = this.#users.filter((user) => user.id !== Number(id));
+    this.users = this.users.filter((user) => user.id !== Number(id));
 
     res.status(204).json({});
   }

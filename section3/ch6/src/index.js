@@ -8,6 +8,7 @@ const app = express();
 
 // 미들웨어를 먼저 작성합니다.
 app.use(express.json({ limit: "700mb" }));
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "*",

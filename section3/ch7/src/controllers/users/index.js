@@ -4,7 +4,7 @@ import { Router } from "express";
 class UserController {
   router;
   path = "/users";
-  #users = [
+  users = [
     {
       id: 1,
       name: "John",
@@ -19,28 +19,26 @@ class UserController {
 
   constructor() {
     this.router = Router();
-    this.#init();
+    this.init();
   }
 
-  //#은 private을 의미
-  //다른 코드에서 접근 불가
-  #init() {
-    this.router.get("/", this.#getUsers.bind(this));
-    this.router.get("/:id", this.#getUser.bind(this));
-    this.router.post("/", this.#createUser.bind(this));
-    this.router.patch("/:id", this.#updateUser.bind(this));
-    this.router.delete("/:id", this.#deleteUser.bind(this));
+  init() {
+    this.router.get("/", this.getUsers.bind(this));
+    this.router.get("/:id", this.getUser.bind(this));
+    this.router.post("/", this.createUser.bind(this));
+    this.router.patch("/:id", this.updateUser.bind(this));
+    this.router.delete("/:id", this.deleteUser.bind(this));
   }
 
-  #getUsers(req, res, next) {
-    res.status(200).json({ users: this.#users });
+  getUsers(req, res, next) {
+    res.status(200).json({ users: this.users });
   }
 
-  #getUser(req, res, next) {
+  getUser(req, res, next) {
     try {
       const { id } = req.params;
 
-      const user = this.#users.find((user) => user.id === Number(id));
+      const user = this.users.find((user) => user.id === Number(id));
 
       if (!user) {
         throw { status: 404, message: "유저를 찾을 수 없습니다." };
@@ -52,12 +50,12 @@ class UserController {
     }
   }
 
-  #createUser(req, res, next) {
+  createUser(req, res, next) {
     try {
       const { name, age } = req.body;
       const id = new Date().getTime();
 
-      this.#users.push({ id, name, age });
+      this.users.push({ id, name, age });
 
       res.status(201).json({ id });
     } catch (err) {
@@ -65,18 +63,18 @@ class UserController {
     }
   }
 
-  #updateUser(req, res, next) {
+  updateUser(req, res, next) {
     try {
       const { id } = req.params;
       const { name, age } = req.body;
 
-      const idx = this.#users.findIndex((user) => user.id === Number(id));
+      const idx = this.users.findIndex((user) => user.id === Number(id));
 
       if (!idx) {
         throw { status: 404, message: "유저를 찾을 수 없습니다." };
       }
 
-      this.#users[idx] = { ...this.#users[idx], name, age };
+      this.users[idx] = { ...this.users[idx], name, age };
 
       res.status(204).json({});
     } catch (err) {
@@ -84,17 +82,17 @@ class UserController {
     }
   }
 
-  #deleteUser(req, res, next) {
+  deleteUser(req, res, next) {
     try {
       const { id } = req.params;
 
-      const idx = this.#users.findIndex((user) => user.id === Number(id));
+      const idx = this.users.findIndex((user) => user.id === Number(id));
 
       if (!idx) {
         throw { status: 404, message: "유저를 찾을 수 없습니다." };
       }
 
-      this.#users = this.#users.filter((user) => user.id !== Number(id));
+      this.users = this.users.filter((user) => user.id !== Number(id));
 
       res.status(204).json({});
     } catch (err) {

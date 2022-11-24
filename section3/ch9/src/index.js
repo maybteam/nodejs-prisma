@@ -3,10 +3,12 @@ import cors from "cors";
 import helmet from "helmet";
 
 import controllers from "./controllers";
+import { errRouter } from "../../ch7/src/controllers/global";
 
 const app = express();
 
 // 미들웨어를 먼저 작성합니다.
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "700mb" }));
 app.use(
   cors({
@@ -18,5 +20,7 @@ app.use(helmet());
 controllers.forEach((controller) => {
   app.use(controller.path, controller.router);
 });
+
+app.use(errRouter);
 
 app.listen(8000);

@@ -8,6 +8,7 @@ import { errRouter } from "./controllers/global";
 const app = express();
 
 // 미들웨어를 먼저 작성합니다.
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "700mb" }));
 app.use(
   cors({
@@ -21,8 +22,5 @@ controllers.forEach((controller) => {
 });
 
 app.use(errRouter);
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: "에러가 발생했어요!" });
-});
 
 app.listen(8000);
