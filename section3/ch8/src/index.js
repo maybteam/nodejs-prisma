@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { errRouter } from "../src/controllers/global";
 import swaggerUi from "swagger-ui-express";
 import { options, swaggerDocs } from "./swagger";
+import Controllers from "./controllers";
 
 const app = express();
 
@@ -11,7 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
-
+Controllers.forEach((controller) => {
+  app.use(controller.path, controller.router);
+});
 app.use(errRouter);
 app.get("/swagger.json", (req, res) => {
   res.status(200).json(swaggerDocs);
