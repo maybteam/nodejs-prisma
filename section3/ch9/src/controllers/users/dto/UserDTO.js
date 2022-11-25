@@ -5,7 +5,7 @@ class UserDTO {
 
   constructor(user) {
     this.id = user.id;
-    this.name = user.name;
+    this.name = `${user.firstName} ${user.lastName}`;
     this.age = user.age;
   }
 
