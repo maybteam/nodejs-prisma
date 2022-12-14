@@ -1,13 +1,13 @@
 export class UpdateUserDTO {
-  name;
-  email;
-  phoneNumber;
   age;
+  name;
+  phoneNumber;
+  email;
 
   constructor(user) {
-    this.name = user?.name;
-    this.email = user?.email;
-    this.phoneNumber = user?.phoneNumber;
-    this.age = user?.age;
+    this.age = user.age ?? undefined;
+    this.name = user.name ?? undefined;
+    this.phoneNumber = user.phoneNumber ?? undefined;
+    this.email = user.email ?? undefined;
   }
 }

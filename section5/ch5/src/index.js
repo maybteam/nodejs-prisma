@@ -5,7 +5,6 @@ import Controllers from "./controllers";
 import { swaggerDocs, options } from "./swagger";
 import swaggerUi from "swagger-ui-express";
 import database from "./database";
-import { errRouter } from "./global";
 
 (async () => {
   const app = express();
@@ -32,7 +31,11 @@ import { errRouter } from "./global";
     res.send("Nodejs 강의 재밌어요!");
   });
 
-  app.use(errRouter);
+  app.use((err, req, res, next) => {
+    res
+      .status(err.status || 500)
+      .json({ message: err.message || "서버에서 에러가 발생하였습니다." });
+  });
 
   app.listen(8000, () => {
     console.log("서버가 시작되었습니다.");

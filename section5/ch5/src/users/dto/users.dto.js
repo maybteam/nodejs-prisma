@@ -1,15 +1,15 @@
-export class UserDTO {
+export class UsersDTO {
   id;
-  name;
-  email;
-  phoneNumber;
   age;
+  name;
+  phoneNumber;
+  email;
 
   constructor(user) {
     this.id = user.id;
-    this.name = user.name;
-    this.email = user.email;
-    this.phoneNumber = user.phoneNumber;
     this.age = user.age;
+    this.name = user.name;
+    this.phoneNumber = user.phoneNumber;
+    this.email = user.email;
   }
 }

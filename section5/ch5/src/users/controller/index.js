@@ -1,81 +1,86 @@
 import { Router } from "express";
-import { UserDTO, CreateUserDTO } from "../dto";
+import { pagination } from "../../middleware/pagination";
+
+import { UsersDTO, CreateUserDTO, UpdateUserDTO } from "../dto";
+import { UserService } from "../service";
 
 // Router
 class UserController {
   router;
   path = "/users";
+  userService;
 
   constructor() {
     this.router = Router();
+    this.userService = new UserService();
     this.init();
   }
 
   init() {
-    // /users
-    this.router.get("/", this.getUsers.bind(this));
-    this.router.get("/detail/:id/fullName", this.getUserFullName.bind(this));
+    this.router.get("/", pagination, this.getUsers.bind(this));
     this.router.get("/detail/:id", this.getUser.bind(this));
     this.router.post("/", this.createUser.bind(this));
+    this.router.post("/:id", this.updateUser.bind(this));
+    this.router.post("/:id", this.deleteUser.bind(this));
   }
 
-  getUsers(req, res, next) {
+  async getUsers(req, res, next) {
     try {
-      res.status(200).json({ users });
+      const { users, count } = await this.userService.findUsers({
+        skip: req.skip,
+        take: req.take,
+      });
+
+      res
+        .status(200)
+        .json({ users: users.map((user) => new UsersDTO(user)), count });
     } catch (err) {
       next(err);
     }
   }
 
-  getUser(req, res, next) {
+  async getUser(req, res, next) {
+    try {
+      const { id } = req.params;
+      const user = await this.userService.findUserById(id);
+
+      res.status(200).json({ user: new UsersDTO(user) });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async createUser(req, res, next) {
+    try {
+      const createUserDto = new CreateUserDTO(req.body);
+
+      const newUserId = await this.userService.createUser(createUserDto);
+
+      res.status(201).json({ id: newUserId });
+    } catch (err) {
+      next(err);
+    }
+  }
+  async updateUser(req, res, next) {
+    try {
+      const { id } = req.params;
+      const updateUserDto = new UpdateUserDTO(req.body);
+
+      await this.userService.updateUser(id, updateUserDto);
+
+      res.status(204).json({});
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteUser(req, res, next) {
     try {
       const { id } = req.params;
 
-      const targetUser = this.users.find((user) => user.id === Number(id));
+      await this.userService.deleteUser(id);
 
-      if (!targetUser) {
-        throw { status: 404, message: "유저를 찾을 수 없습니다." };
-      }
-      const user = new UserDTO(targetUser);
-
-      res.status(200).json({ user });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  getUserFullName(req, res, next) {
-    try {
-      const { id } = req.params;
-
-      const targetUser = this.users.find((user) => user.id === Number(id));
-
-      if (!targetUser) {
-        throw { status: 404, message: "유저를 찾을 수 없습니다." };
-      }
-
-      const user = new UserDTO(targetUser);
-
-      res.status(200).json({ fullName: user.getFullName() });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  createUser(req, res, next) {
-    try {
-      const { firstName, lastName, age } = req.body;
-
-      if (!firstName || !lastName) {
-        throw { status: 400, message: "이름이 없습니다." };
-      }
-
-      const user = new CreateUserDTO(firstName, lastName, age);
-      const newUser = user.getNewUser();
-
-      this.users.push(newUser);
-
-      res.status(201).json({ users: this.users });
+      res.status(204).json({});
     } catch (err) {
       next(err);
     }
