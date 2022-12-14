@@ -1,5 +1,5 @@
 export const getUserSwagger = {
-  "/detail/:id": {
+  "/users/detail/:id": {
     get: {
       tags: ["User"],
       summary: "유저 상세 조회합니다.",
@@ -24,13 +24,19 @@ export const getUserSwagger = {
                     type: "object",
                     properties: {
                       id: {
-                        type: "number",
+                        type: "string",
                       },
                       name: {
                         type: "string",
                       },
                       age: {
                         type: "number",
+                      },
+                      email: {
+                        type: "string",
+                      },
+                      phoneNumber: {
+                        type: "string",
                       },
                     },
                   },
@@ -45,15 +51,21 @@ export const getUserSwagger = {
 };
 
 export const getUsersSwagger = {
-  "/detail/:id": {
-    post: {
+  "/users": {
+    get: {
       tags: ["User"],
-      summary: "유저 상세 조회합니다.",
+      summary: "유저 리스트를 조회합니다.",
       parameters: [
         {
-          in: "path",
-          name: "id",
-          required: true,
+          in: "query",
+          name: "page",
+          schema: {
+            type: "number",
+          },
+        },
+        {
+          in: "query",
+          name: "limit",
           schema: {
             type: "number",
           },
@@ -67,10 +79,10 @@ export const getUsersSwagger = {
                 type: "object",
                 properties: {
                   user: {
-                    type: "object",
+                    type: "array",
                     properties: {
                       id: {
-                        type: "number",
+                        type: "string",
                       },
                       name: {
                         type: "string",
@@ -78,9 +90,149 @@ export const getUsersSwagger = {
                       age: {
                         type: "number",
                       },
+                      email: {
+                        type: "string",
+                      },
+                      phoneNumber: {
+                        type: "string",
+                      },
                     },
                   },
+                  count: {
+                    type: "number",
+                  },
                 },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const updateUserSwagger = {
+  "/users": {
+    patch: {
+      tags: ["User"],
+      summary: "유저를 수정합니다.",
+      parameters: [
+        {
+          in: "path",
+          name: "id",
+          required: true,
+          schema: {
+            type: "number",
+          },
+        },
+      ],
+      requestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                },
+                age: {
+                  type: "number",
+                },
+                email: {
+                  type: "string",
+                },
+                phoneNumber: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        204: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const createUserSwagger = {
+  "/users": {
+    post: {
+      tags: ["User"],
+      summary: "유저를 생성합니다.",
+      requestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                },
+                age: {
+                  type: "number",
+                },
+                email: {
+                  type: "string",
+                },
+                phoneNumber: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        201: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  id: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const deleteUserSwagger = {
+  "/users": {
+    delete: {
+      tags: ["User"],
+      summary: "유저를 삭제합니다.",
+      parameters: [
+        {
+          in: "path",
+          name: "id",
+          required: true,
+          schema: {
+            type: "number",
+          },
+        },
+      ],
+      responses: {
+        204: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {},
               },
             },
           },
