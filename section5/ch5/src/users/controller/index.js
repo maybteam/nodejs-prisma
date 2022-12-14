@@ -1,18 +1,10 @@
 import { Router } from "express";
-import { UserDTO, CreateUserDTO } from "./dto";
+import { UserDTO, CreateUserDTO } from "../dto";
 
 // Router
 class UserController {
   router;
   path = "/users";
-  users = [
-    {
-      id: 1,
-      firstName: "John",
-      lastName: "Don",
-      age: 12,
-    },
-  ];
 
   constructor() {
     this.router = Router();
@@ -29,8 +21,6 @@ class UserController {
 
   getUsers(req, res, next) {
     try {
-      const users = this.users.map((user) => new UserDTO(user));
-
       res.status(200).json({ users });
     } catch (err) {
       next(err);

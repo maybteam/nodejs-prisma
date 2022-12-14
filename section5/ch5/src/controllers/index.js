@@ -1,4 +1,5 @@
-import UserController from "./users";
+import { UserController } from "../users";
 
-// Routers (컨트롤러들)
-export default [UserController];
+const Controller = [UserController];
+
+export default Controller;
