@@ -3,13 +3,18 @@ export const getUserSwagger = {
     get: {
       tags: ["User"],
       summary: "유저 상세 조회합니다.",
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           in: "path",
           name: "id",
           required: true,
           schema: {
-            type: "number",
+            type: "string",
           },
         },
       ],
@@ -122,7 +127,7 @@ export const updateUserSwagger = {
           name: "id",
           required: true,
           schema: {
-            type: "number",
+            type: "string",
           },
         },
       ],
@@ -222,7 +227,7 @@ export const deleteUserSwagger = {
           name: "id",
           required: true,
           schema: {
-            type: "number",
+            type: "string",
           },
         },
       ],

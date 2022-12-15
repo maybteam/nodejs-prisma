@@ -16,6 +16,7 @@ const { paths } = Object.values(Swaggers).reduce(
           ...acc.paths,
           ...api,
         };
+        console.log(api);
       } else {
         acc.paths[key] = {
           ...acc.paths[key],
@@ -23,7 +24,7 @@ const { paths } = Object.values(Swaggers).reduce(
         };
       }
     });
-
+    console.log(acc);
     return acc;
   },
   { paths: {} }

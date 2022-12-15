@@ -5,6 +5,7 @@ import { Controllers } from "./models";
 import { swaggerDocs, options } from "./swagger";
 import swaggerUi from "swagger-ui-express";
 import database from "./database";
+import { jwtAuth } from "./middleware/jwtAuth";
 
 (async () => {
   const app = express();
@@ -15,6 +16,7 @@ import database from "./database";
   app.use(helmet()); // next();
   app.use(express.json()); //next();
   app.use(express.urlencoded({ extended: true, limit: "700mb" })); //next();
+  app.use(jwtAuth);
 
   Controllers.forEach((controller) => {
     app.use(controller.path, controller.router);
