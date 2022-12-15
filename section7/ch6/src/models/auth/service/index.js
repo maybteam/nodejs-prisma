@@ -1,7 +1,6 @@
 import { CreateUserDTO } from "../../users/dto";
 import { UserService } from "../../users/service";
 import jwt from "jsonwebtoken";
-
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -32,20 +31,19 @@ export class AuthService {
       expiresIn: "14d",
     });
 
-    console.log({ accessToken, refreshToken });
-
     return { accessToken, refreshToken };
   }
 
+  // props : LoginDTO
   async login(props) {
     const isExist = await this.userService.checkUserByEmail(props.email);
 
-    if (!isExist) throw { status: 404, message: "유저를 찾을 수 없습니다." };
+    if (!isExist) throw { status: 404, message: "유저가 존재하지 않습니다." };
 
-    const isPasswordCorrect = await props.comparePassword(isExist.password);
+    const isCorrect = await props.comparePassword(isExist.password);
 
-    if (!isPasswordCorrect)
-      throw { status: 400, message: "비밀번호가 일치하지 않습니다." };
+    if (!isCorrect)
+      throw { status: 400, message: "비밀번호를 잘못 입력하였습니다." };
 
     const accessToken = jwt.sign({ id: isExist.id }, process.env.JWT_KEY, {
       expiresIn: "2h",
@@ -53,9 +51,35 @@ export class AuthService {
     const refreshToken = jwt.sign({ id: isExist.id }, process.env.JWT_KEY, {
       expiresIn: "14d",
     });
+
     return {
       accessToken,
       refreshToken,
+    };
+  }
+
+  async refresh(accessToken, refreshToken) {
+    const accessTokenPayload = jwt.verify(accessToken, process.env.JWT_KEY, {
+      ignoreExpiration: true,
+    });
+    const refreshTokenPayload = jwt.verify(refreshToken, process.env.JWT_KEY);
+
+    if (accessTokenPayload.id !== refreshTokenPayload.id) {
+      throw { status: 403, message: "권한이 없습니다." };
+    }
+
+    const user = await this.userService.findUserById(accessTokenPayload.id);
+
+    const newAccessToken = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+      expiresIn: "2h",
+    });
+    const newRefreshToken = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+      expiresIn: "14d",
+    });
+
+    return {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
     };
   }
 }

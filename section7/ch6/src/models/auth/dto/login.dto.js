@@ -11,7 +11,6 @@ export class LoginDTO {
 
   async comparePassword(password) {
     const isCorrect = await bcrypt.compare(this.password, password);
-
     return isCorrect;
   }
 }

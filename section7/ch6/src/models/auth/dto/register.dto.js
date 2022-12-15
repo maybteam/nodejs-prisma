@@ -7,15 +7,15 @@ export class RegisterDTO {
   name;
   email;
   phoneNumber;
-  age;
   password;
+  description;
 
   constructor(props) {
     this.name = props.name;
     this.email = props.email;
     this.phoneNumber = props.phoneNumber;
-    this.age = props.age;
     this.password = props.password;
+    this.description = props.description;
   }
 
   async hashPassword() {

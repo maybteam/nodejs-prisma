@@ -12,8 +12,8 @@ export const register = {
                 name: {
                   type: "string",
                 },
-                age: {
-                  type: "number",
+                description: {
+                  type: "string",
                 },
                 email: {
                   type: "string",
@@ -67,6 +67,51 @@ export const login = {
                   type: "string",
                 },
                 password: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  accessToken: {
+                    type: "string",
+                  },
+                  refreshToken: {
+                    type: "string",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const refresh = {
+  "/auth/refresh": {
+    post: {
+      tags: ["Auth"],
+      summary: "토큰 초기화",
+      requestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                accessToken: {
+                  type: "string",
+                },
+                refreshToken: {
                   type: "string",
                 },
               },

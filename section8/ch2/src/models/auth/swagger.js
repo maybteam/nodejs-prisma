@@ -96,3 +96,48 @@ export const login = {
     },
   },
 };
+
+export const refresh = {
+  "/auth/refresh": {
+    post: {
+      tags: ["Auth"],
+      summary: "토큰 초기화",
+      requestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                accessToken: {
+                  type: "string",
+                },
+                refreshToken: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  accessToken: {
+                    type: "string",
+                  },
+                  refreshToken: {
+                    type: "string",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
