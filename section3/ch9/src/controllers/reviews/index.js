@@ -11,7 +11,7 @@ class ReviewController {
     },
   ];
   constructor() {
-    this.router = Rotuer();
+    this.router = Router();
     this.init();
   }
 

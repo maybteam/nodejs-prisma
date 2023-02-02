@@ -11,32 +11,6 @@ const defaultSwagger = ({ title, description, servers }) => {
         name: "",
       },
     },
-    servers: [
-      {
-        url: "http://localhost:8000",
-        description: "dev",
-        variables: {},
-      },
-    ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
-      },
-    },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
-    tags: [],
-    externalDocs: {
-      url: "",
-      description: "",
-    },
   };
 };
 export default defaultSwagger;

@@ -3,7 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 
 import controllers from "./controllers";
-import { errRouter } from "../../ch7/src/controllers/global";
+import { errRouter } from "./controllers/global";
 
 const app = express();
 

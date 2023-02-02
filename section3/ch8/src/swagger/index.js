@@ -26,12 +26,11 @@ const { paths } = Object.values(Swaggers).reduce(
   },
   { paths: {} }
 );
-
+console.log(paths);
 export const swaggerDocs = {
   ...DefaultSwagger({
     title: "예시",
     description: "예시 설명",
-    servers: ["http://locahost:8000"],
   }),
   paths,
 };
